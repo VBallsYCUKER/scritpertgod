@@ -1,0 +1,697 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Dragon blox ultimate GUI, Made by #ScripterGod", "Midnight")
+
+local CoreGui = game:GetService("StarterGui")
+
+CoreGui:SetCore("SendNotification", {
+    Title = "Bienvenido",
+    Text = "Disfruta el AutoFarm Hecho por #ScripterGod",
+    Duration = 5.5,
+})
+
+local Tab = Window:NewTab("DBU Farm")
+local Section = Tab:NewSection("Op Autofarm")
+
+
+Section:NewButton("A-U-T-O-F-A-R-M", "Press to farm", function()
+    
+    local CoreGui = game:GetService("StarterGui")
+
+CoreGui:SetCore("SendNotification", {
+    Title = "Hola bro",
+    Text = "Listo para tu Farmeo?",
+    Duration = 5.5,
+})
+    
+    wait(0.05)
+if (game.PlaceId ~= 5151400895) then
+    repeat
+        wait()
+    until game.Players.LocalPlayer.CharacterAdded and
+        game.ReplicatedStorage.Datas:WaitForChild(game.Players.LocalPlayer.UserId)
+
+    wait(5)
+
+    game.ReplicatedStorage.Package.Events.Start:InvokeServer()
+    game.ReplicatedStorage.Package.Events.Start:InvokeServer()
+    game.ReplicatedStorage.Package.Events.Start:InvokeServer()
+
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+_G.rebirthed = false;
+local HttpService = game:GetService("HttpService")
+local player = game:GetService("Players").LocalPlayer
+repeat
+    wait(3)
+until player.CharacterAdded
+local userId = player.UserId
+
+local character = player.Character
+local stats = character:WaitForChild("Stats")
+local playerHumanoid = character:WaitForChild("Humanoid")
+local hasQuest = player.PlayerGui.Main.MainFrame.Frames.Quest.Nop.Visible
+
+local RunService = game:GetService('RunService')
+local questRemote = game:GetService("ReplicatedStorage").Package.Events.Qaction
+local punchRemote = game:GetService("ReplicatedStorage").Package.Events.p
+local equipRemote = game:GetService("ReplicatedStorage").Package.Events.equipskill
+local rebirthRemote = game:GetService("ReplicatedStorage").Package.Events.reb
+local npcPosition = CFrame.new(0, 0, 3)
+
+local Forms = {'Ultra Ego', 'SSJR3', 'SSJB4', 'True God of Creation', 'True God of Destruction', 'Super Broly', 'LSSJG', 'LSSJ4',
+               'SSJG4', 'LSSJ3', 'SSJ5', 'Mystic Kaioken', 'LSSJ Kaioken', 'SSJ2 Kaioken', 'SSJR3', 'SSJB3',
+               'God Of Destruction', 'God Of Creation', 'Jiren Ultra Instinct', 'Mastered Ultra Instinct', 'Godly SSJ2',
+               'Ultra Instinct Omen', 'Evil SSJ', 'Blue Evolution', 'Dark Rose', 'Kefla SSJ2', 'SSJ Berserker',
+               'True Rose', 'SSJB Kaioken', 'SSJ Rose', 'SSJ Blue', 'Corrupt SSJ', 'SSJ Rage', 'SSJG', 'SSJ4', 'Mystic',
+               'LSSJ', 'SSJ3', 'Spirit SSJ', 'SSJ2 Majin', 'SSJ2', 'SSJ Kaioken', 'SSJ', 'FSSJ', 'Kaioken'}
+
+local function returnQuest(boolean)
+
+    local quest = getrenv()._G.x.GetRecommendedQuest(game.Players.LocalPlayer)
+    if (game.ReplicatedStorage.Datas[userId]) then
+        if (quest == "Vis (Vills Planet)") then
+            if (game.ReplicatedStorage.Datas[userId].Zeni.Value < 15000) then
+                print("Che wachin, no te alcanzan los zeni, pa. Farmea mas aca.")
+                return ("SSJG Kakata")
+            else
+                print("Vamos pa' Bills papu.")
+                game.ReplicatedStorage.Package.Events.TP:InvokeServer("Vills Planet")
+                return "SSJG Kakata"
+            end
+        end
+        if (quest == 'Kito') then
+            print("Vamos pa'casa papu.")
+            game.ReplicatedStorage.Package.Events.TP:InvokeServer("Earth")
+            return 'X Fighter Trainer'
+        end
+    end
+    if game.Players.LocalPlayer.PlayerGui.Main.MainFrame.Frames.Quest.Nop.Visible == true then
+
+        local quest = getrenv()._G.x.GetRecommendedQuest(game.Players.LocalPlayer)
+        _G.quest = quest
+        if (boolean) and quest:find('Bills Planet') then
+            _G.quest = "SSJG Kakata"
+            return 'SSJG Kakata'
+        else
+            _G.quest = quest
+            return quest
+
+        end
+    end
+    local noFilteredTextA = game.Players.LocalPlayer.PlayerGui.Main.MainFrame.Frames.Quest.Yas.Description.text
+    local tstring1 = string.split(noFilteredTextA, "Defeat")
+    local length1 = table.getn(tstring1)
+    local tstring2 = string.split(tstring1[length1], "!")
+
+    local npc = tstring2[1]:sub(2)
+
+    if (npc == "3 Kaio Students") then
+        npc = "Kaio Student"
+    elseif (npc == "the Kai-fist Master") then
+        npc = npc:sub(5, 19)
+        print(npc)
+    elseif (npc == "ntertain the greatest fusion") then
+        npc = "SSJG Kakata"
+    elseif (npc == "Vegetable in his destroyer form") then
+        npc = "Vegetable (GoD in-training)"
+    elseif (npc == "3 X Fighters") then
+        npc = "X Fighter Trainer"
+    elseif (npc == "5 Evil Sayas") then
+        npc = "Citizen"
+    elseif (npc == "the destroyer: Vills (50%)") then
+        npc = "Vills (50%)"
+    elseif (npc == "the Vis at 20%") then
+        npc = "Vis (20%)"
+    elseif (npc == "X Fighter Master") then
+        npc = "Top X Fighter"
+    elseif (npc == "3 Turtle Students") then
+        npc = "Turtle Student"
+
+    end
+
+    return npc
+end
+
+local function transform()
+    pcall(function()
+        for i, v in pairs(Forms) do
+            if equipRemote:InvokeServer(v) then
+                break
+            end
+        end
+        repeat
+            wait()
+            if player.Status.SelectedTransformation.Value ~= player.Status.Transformation.Value then
+                game:GetService("ReplicatedStorage").Package.Events.ta:InvokeServer()
+            end
+        until game.Players.LocalPlayer.Status.SelectedTransformation.Value ==
+            game.Players.LocalPlayer.Status.Transformation.Value
+    end)
+end
+
+local RunService = game:GetService("RunService")
+RunService.RenderStepped:Connect(function()
+    playerHumanoid.Health = math.huge
+end)
+
+while true and wait() do
+    if (stats.Strength.Value > 0 and stats.Defense.Value > 0 and stats.Energy.Value > 0 and stats.Speed.Value >
+          0) then
+        transform()
+
+    end
+    coroutine.resume(coroutine.create(function()
+        game.ReplicatedStorage.Package.Events.cha:InvokeServer("Blacknwhite27")
+        wait()
+        game.ReplicatedStorage.Package.Events.cha:InvokeServer("Blacknwhite27")
+        wait()
+        game.ReplicatedStorage.Package.Events.cha:InvokeServer("Blacknwhite27")
+        wait()
+        game:GetService("ReplicatedStorage").Package.Events.reb:InvokeServer()
+
+    end))
+    if (not player.PlayerGui.Main.MainFrame.Frames.Quest.Nop.Visible) then
+        transform()
+        for i, v in next, workspace.Living:GetChildren() do
+            if (v.Name == returnQuest(true) or v.Name ==
+                game:GetService("ReplicatedStorage").Package.Quests[returnQuest(true)].Objective.Value) and
+                not player.PlayerGui.Main.MainFrame.Frames.Quest.Nop.Visible and v:FindFirstChild('Humanoid') and
+                v:FindFirstChild('HumanoidRootPart') and v.Humanoid.Health > 0 then
+                repeat
+                    coroutine.resume(coroutine.create(function()
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame *
+                                                                                         npcPosition
+                    end))
+
+                    coroutine.resume(coroutine.create(function()
+                        if (game.ReplicatedStorage.Datas[userId].Strength.Value > 1000000) then
+                            game.ReplicatedStorage.Package.Events.mel:InvokeServer("Mach Kick", "Blacknwhite27")
+				                 game.ReplicatedStorage.Package.Events.mel:InvokeServer("Wolf Fang Fist", "Blacknwhite27")
+				  game.ReplicatedStorage.Package.Events.mel:InvokeServer("Meteor Strike", "Blacknwhite27")
+			game.ReplicatedStorage.Package.Events.mel:InvokeServer("Super Dragon Fist", "Blacknwhite27")
+			game.ReplicatedStorage.Package.Events.mel:InvokeServer("Meteor Crash", "Blacknwhite27")
+			game.ReplicatedStorage.Package.Events.mel:InvokeServer("Spirit Breaking Cannon", "Blacknwhite27")
+			game.ReplicatedStorage.Package.Events.mel:InvokeServer("God Slicer", "Blacknwhite27")
+                  game.ReplicatedStorage.Package.Events.mel:InvokeServer("Vital Strike", "Blacknwhite27")
+                  game.ReplicatedStorage.Package.Events.mel:InvokeServer("Vanish Strike", "Blacknwhite27")
+                            wait()
+                        end
+                    end))
+
+                    game.ReplicatedStorage.Package.Events.cha:InvokeServer("Blacknwhite27")
+                    coroutine.resume(coroutine.create(function()
+		
+
+		local Remote = game.ReplicatedStorage.Package.Events['mel']
+
+			local Arguments = {
+        [1] = "High Power Rush",
+         [2] = "Blacknwhite27"
+	}
+
+		Remote:InvokeServer(unpack(Arguments))
+
+		local Remote = game.ReplicatedStorage.Package.Events['bloc']
+
+		local Arguments = {
+      	  	[1] = true
+		}
+
+		Remote:InvokeServer(unpack(Arguments)) 
+		local Remote = game.ReplicatedStorage.Package.Events['mel']
+
+		local Arguments = {
+   		     [1] = "Meteor Strike",
+      			   [2] = "Blacknwhite27"
+			}		
+
+				Remote:InvokeServer(unpack(Arguments))
+
+  
+                       local args = {
+                            [1] = "Destruction Orb",
+                            [2] = true,
+                            [4] = {
+                               ["MouseHit"] = v.HumanoidRootPart.CFrame,
+                                 ["FaceMouse"] = true
+                             }
+                        }
+
+                         game:GetService("ReplicatedStorage").Package.Events.BigBall:InvokeServer(unpack(args))
+
+                        local args = {
+                          [1] = "Destruction Orb",
+                             [2] = false,
+                             [3] = true,
+                            [4] = {
+                                 ["MouseHit"] = v.HumanoidRootPart.CFrame
+                             }
+                         }
+
+                         game:GetService("ReplicatedStorage").Package.Events.BigBall:InvokeServer(unpack(args))
+
+                         -- Script generated by SimpleSpy - credits to exx#9394
+
+                         local args = {
+                             [1] = "Destruction Orb",
+                             [2] = v.HumanoidRootPart.CFrame
+                       }
+
+                         game:GetService("ReplicatedStorage").Package.Events.bigboom:InvokeServer(unpack(args))
+                       wait(8)
+                     end))
+
+		local Remote = game.ReplicatedStorage.Package.Events['Hak']
+
+		local Arguments = {
+      		  [1] = "Destruction",
+        		 [2] = {
+            ["MouseHit"] = CFrame.new(1362.35779, 31.8522358, 1070.6012, 0.932202637, 0.0363040417, -0.360111713, -3.72529074e-09, 0.994956911, 0.100304842, 0.361937046, -0.0935044363, 0.927501261),
+      	       ["FaceMouse"] = true
+      		 },
+         [3] = "Blacknwhite27"
+		}
+
+		Remote:InvokeServer(unpack(Arguments))
+
+                    coroutine.resume(coroutine.create(function()
+
+                        local args = {
+                            [1] = "Energy Volley",
+                            [2] = {
+                                ["MouseHit"] = v.HumanoidRootPart.CFrame,
+                                ["FaceMouse"] = true
+                            },
+                            [3] = "Blacknwhite27"
+                        }
+                        game:GetService("ReplicatedStorage").Package.Events.voleys:InvokeServer(unpack(args))
+
+                        wait()
+                    end))
+
+                    coroutine.resume(coroutine.create(function()
+                        if (game.ReplicatedStorage.Datas[userId].Strength.Value > 1000000) then
+                            local args = {
+                                [1] = "Energy Volley",
+                                [2] = {
+                                    ["MouseHit"] = v.HumanoidRootPart.CFrame,
+                                    ["FaceMouse"] = true
+                                },
+                                [3] = "Blacknwhite27"
+                            }
+                            game:GetService("ReplicatedStorage").Package.Events.voleys:InvokeServer(unpack(args))
+                        end
+                        wait()
+                    end))
+
+                    punchRemote:FireServer("Blacknwhite27", 1)
+
+             
+                    wait()
+                until not v or not v:FindFirstChild('Humanoid') or not v:FindFirstChild('HumanoidRootPart') or
+                    v.Humanoid.Health <= 0 or player.PlayerGui:WaitForChild('Main').MainFrame.Frames.Quest.Nop.Visible
+            end
+        end
+    else
+        pcall(function()
+            questRemote:InvokeServer(workspace.Others.NPCs[returnQuest(true)])
+        end)
+    end
+end
+end)
+
+local Tab = Window:NewTab("Energy")
+local Section = Tab:NewSection("Op Energy Only form")
+
+
+Section:NewButton("Inf Energy", "Press to inf energy only form", function()
+    while wait() do
+        game:GetService("ReplicatedStorage"):WaitForChild("Package"):WaitForChild("Events"):WaitForChild("drain"):FireServer()
+        end
+end)
+Section:NewButton("Charge", "Inf charge", function()
+    while wait() do
+        local args = {
+            [1] = "Blacknwhite27"
+        }
+        
+        game:GetService("ReplicatedStorage").Package.Events.cha:InvokeServer(unpack(args))
+        end
+end)
+Section:NewButton("Block", "Block inf", function()
+    local args = {
+        [1] = true
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Package"):WaitForChild("Events"):WaitForChild("block"):InvokeServer(unpack(args))
+    
+end)
+Section:NewButton("Punch", "Abuse Players", function()
+    while wait() do
+        local args = {
+            [1] = "Blacknwhite27",
+            [2] = 1
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Package"):WaitForChild("Events"):WaitForChild("p"):FireServer(unpack(args))
+        end
+end)
+
+local Tab = Window:NewTab("Forms")
+local Section = Tab:NewSection("Forms and Stack")
+Section:NewButton("Stack Godly SSJ2 (wait 10 seconds)", "After you press wait 10 seconds", function()
+    wait(10)
+    game.ReplicatedStorage.Package.Events.Start:InvokeServer()
+    game.ReplicatedStorage.Package.Events.Start:InvokeServer()
+    game.ReplicatedStorage.Package.Events.Start:InvokeServer()
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+
+wait(5)
+ local A_1 = "Godly SSJ2"
+local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+Event:InvokeServer(A_1)
+
+ 
+local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+Event:InvokeServer()
+end)
+Section:NewButton("Ultra ego", "transform", function()
+    local A_1 = "Ultra Ego"
+local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+Event:InvokeServer(A_1)
+
+ 
+local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+Event:InvokeServer()
+end)
+Section:NewButton("LBSSJ4", "Transformation", function()
+    local A_1 = "LBSSJ4"
+local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+Event:InvokeServer(A_1)
+
+ 
+local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+Event:InvokeServer()
+end)
+Section:NewButton("SSJR3", "Transformation", function()
+    local A_1 = "SSJR3"
+    local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+    Event:InvokeServer(A_1)
+    
+     
+    local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+    Event:InvokeServer()
+end)
+Section:NewButton("God of Destruction", "Transformation", function()
+    local A_1 = "God of Destruction"
+    local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+    Event:InvokeServer(A_1)
+    
+     
+    local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+    Event:InvokeServer()
+end)
+Section:NewButton("Jiren Ultra Instinct", "Transformation", function()
+    local A_1 = "Jiren Ultra Instinct"
+    local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+    Event:InvokeServer(A_1)
+    
+     
+    local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+    Event:InvokeServer()
+end)
+
+Section:NewButton("Godly SSJ2", "Transform", function()
+    local A_1 = "Godly SSJ2"
+    local Event = game:GetService("ReplicatedStorage").Package.Events.equipskill
+    Event:InvokeServer(A_1)
+    
+     
+    local Event = game:GetService("ReplicatedStorage").Package.Events.ta
+    Event:InvokeServer()
+end)
+
+local Tab = Window:NewTab("Teleport Boss")
+local Section = Tab:NewSection("Tp boss")
+Section:NewButton("Vegito SSJG", "go", function()
+    local args = {
+        [1] = workspace:WaitForChild("Others"):WaitForChild("NPCs"):WaitForChild("SSJG Kakata")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Package"):WaitForChild("Events"):WaitForChild("Qaction"):InvokeServer(unpack(args))
+    
+end)
+Section:NewButton("Gogeta SSJBUI", "go", function()
+    local args = {
+        [1] = workspace:WaitForChild("Others"):WaitForChild("NPCs"):WaitForChild("Vekuta (SSJBUI)")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Package"):WaitForChild("Events"):WaitForChild("Qaction"):InvokeServer(unpack(args))
+    
+end)
+Section:NewButton("Gogeta LBSSJ4", "go", function()
+    local args = {
+        [1] = workspace:WaitForChild("Others"):WaitForChild("NPCs"):WaitForChild("Vekuta (LBSSJ4)")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Package"):WaitForChild("Events"):WaitForChild("Qaction"):InvokeServer(unpack(args))
+    
+end)
+
+local Tab = Window:NewTab("Extras")
+local Section = Tab:NewSection("Made by ScripterGod#1066")
+Section:NewButton("Anti afk", "Anti roblox kick", function()
+    wait(0.5)local ba=Instance.new("ScreenGui")
+local ca=Instance.new("TextLabel")local da=Instance.new("Frame")
+local _b=Instance.new("TextLabel")local ab=Instance.new("TextLabel")ba.Parent=game.CoreGui
+ba.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;ca.Parent=ba;ca.Active=true
+ca.BackgroundColor3=Color3.new(0.176471,0.176471,0.176471)ca.Draggable=true
+ca.Position=UDim2.new(0.698610067,0,0.098096624,0)ca.Size=UDim2.new(0,370,0,52)
+ca.Font=Enum.Font.SourceSansSemibold;ca.Text="Anti Afk"ca.TextColor3=Color3.new(0,1,1)
+ca.TextSize=22;da.Parent=ca
+da.BackgroundColor3=Color3.new(0.196078,0.196078,0.196078)da.Position=UDim2.new(0,0,1.0192306,0)
+da.Size=UDim2.new(0,370,0,107)_b.Parent=da
+_b.BackgroundColor3=Color3.new(0.176471,0.176471,0.176471)_b.Position=UDim2.new(0,0,0.800455689,0)
+_b.Size=UDim2.new(0,370,0,21)_b.Font=Enum.Font.Arial;_b.Text="Made by Headshot#5868"
+_b.TextColor3=Color3.new(0,1,1)_b.TextSize=20;ab.Parent=da
+ab.BackgroundColor3=Color3.new(0.176471,0.176471,0.176471)ab.Position=UDim2.new(0,0,0.158377,0)
+ab.Size=UDim2.new(0,370,0,44)ab.Font=Enum.Font.ArialBold;ab.Text="Status: Active"
+ab.TextColor3=Color3.new(0,1,1)ab.TextSize=20;local bb=game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+bb:CaptureController()bb:ClickButton2(Vector2.new())
+ab.Text="Roblox kicked you but we didnt let them!"wait(2)ab.Text="Status : Active"end)
+end)
+Section:NewButton("Stat reader press f9", "After you execute press f9", function()
+    local function mostrarStats()
+        warn("--------------------------------------------")
+        local livingPlayers = workspace.Living:GetChildren()
+        for i, player in ipairs(livingPlayers) do
+            if player:IsA("Model") and player:FindFirstChild("Stats") then
+                local stats = player.Stats
+                local rebirth = stats:FindFirstChild("Rebirth")
+                local defense = stats:FindFirstChild("Defense")
+    
+                if rebirth and defense then
+                    local abbreviatedRebirth = rebirth.Value
+                    local abbreviatedDefense = defense.Value
+    
+                    -- Abreviar rebirths
+                    if abbreviatedRebirth >= 1000000 then
+                        abbreviatedRebirth = string.format("%.1fM", abbreviatedRebirth / 1000000)
+                    elseif abbreviatedRebirth >= 1000 then
+                        abbreviatedRebirth = string.format("%.1fK", abbreviatedRebirth / 1000)
+                    end
+    
+                    -- Abreviar defensa
+                    if abbreviatedDefense >= 1000000000 then
+                        abbreviatedDefense = string.format("%.1fB", abbreviatedDefense / 1000000000)
+                    elseif abbreviatedDefense >= 1000000 then
+                        abbreviatedDefense = string.format("%.1fM", abbreviatedDefense / 1000000)
+                    elseif abbreviatedDefense >= 1000 then
+                        abbreviatedDefense = string.format("%.1fK", abbreviatedDefense / 1000)
+                    end
+    
+                    warn(player.Name .. " tiene " .. rebirth.Value .. " rebirths y " .. abbreviatedDefense .. " de stats de defensa.")
+                end
+            end
+        end
+        warn("--------------------------------------------")
+    end
+    
+    local function restartScript()
+        mostrarStats()
+    end
+    
+    game.Players.PlayerAdded:Connect(restartScript)
+    game.Players.PlayerRemoving:Connect(restartScript)
+    
+    restartScript()
+    
+end)
+Section:NewButton("Spam atacks menu", "Menu", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/VBallsYCUKER/DBUSPAMMER/main/scriptt", true))()
+end)
+Section:NewSlider("Walkspeed", "SPEED", 500, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+Section:NewButton("Infinite Yield", "Execute", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+Section:NewButton("AutoFarm Basic", "Execute", function()
+    loadstring(game:HttpGet("https://scriptblox.com/raw/Dragon-Blox-Ultimate-GUI-5571", true))()
+end)
+Section:NewToggle("Super-Human", "Superman??", function(state)
+    if state then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 5000
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 5000000000
+    else
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 16
+    end
+end)
+Section:NewButton("Back/Front Flip", "funny", function()
+    loadstring('https://pastenbin.com/raw/7wDcPtLK')
+end)
+Section:NewButton("???", "???", function()
+    while wait(5) do
+    local args = {
+        [1] = "El mas insano",
+        [2] = "All"
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(unpack(args))
+    end
+end)
+Section:NewButton("Matar jugadores", "xd", function()
+    -- I DONT OWN THIS SCRIPT
+--BROUGHT BACK TO LIFE BY FE EXZ!!!
+--NO HATS REQUIRED
+ 
+local lp = game:FindService("Players").LocalPlayer
+ 
+local function gplr(String)
+	local Found = {}
+	local strl = String:lower()
+	if strl == "all" then
+		for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+			table.insert(Found,v)
+		end
+	elseif strl == "others" then
+		for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+			if v.Name ~= lp.Name then
+				table.insert(Found,v)
+			end
+		end 
+	elseif strl == "me" then
+		for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+			if v.Name == lp.Name then
+				table.insert(Found,v)
+			end
+		end 
+	else
+		for i,v in pairs(game:FindService("Players"):GetPlayers()) do
+			if v.Name:lower():sub(1, #String) == String:lower() then
+				table.insert(Found,v)
+			end
+		end 
+	end
+	return Found 
+end
+ 
+local function notif(str,dur)
+	game:FindService("StarterGui"):SetCore("SendNotification", {
+		Title = "yeet gui",
+		Text = str,
+		Icon = "rbxassetid://2005276185",
+		Duration = dur or 3
+	})
+end
+ 
+--// sds
+ 
+local h = Instance.new("ScreenGui")
+local Main = Instance.new("ImageLabel")
+local Top = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TextBox = Instance.new("TextBox")
+local TextButton = Instance.new("TextButton")
+ 
+h.Name = "h"
+h.Parent = game:GetService("CoreGui")
+h.ResetOnSpawn = false
+ 
+Main.Name = "Main"
+Main.Parent = h
+Main.Active = true
+Main.Draggable = true
+Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.174545452, 0, 0.459574461, 0)
+Main.Size = UDim2.new(0, 454, 0, 218)
+Main.Image = "rbxassetid://2005276185"
+ 
+Top.Name = "Top"
+Top.Parent = Main
+Top.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+Top.BorderSizePixel = 0
+Top.Size = UDim2.new(0, 454, 0, 44)
+ 
+Title.Name = "Title"
+Title.Parent = Top
+Title.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0, 0, 0.295454562, 0)
+Title.Size = UDim2.new(0, 454, 0, 30)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "FE Yeet Gui (trollface edition)"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+ 
+TextBox.Parent = Main
+TextBox.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.0704845786, 0, 0.270642221, 0)
+TextBox.Size = UDim2.new(0, 388, 0, 62)
+TextBox.Font = Enum.Font.SourceSans
+TextBox.PlaceholderText = "Who do i destroy(can be shortened)"
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextScaled = true
+TextBox.TextSize = 14.000
+TextBox.TextWrapped = true
+ 
+TextButton.Parent = Main
+TextButton.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.10352423, 0, 0.596330225, 0)
+TextButton.Size = UDim2.new(0, 359, 0, 50)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "Cheese em'"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+ 
+TextButton.MouseButton1Click:Connect(function()
+	local Target = gplr(TextBox.Text)
+	if Target[1] then
+		Target = Target[1]
+ 
+		local Thrust = Instance.new('BodyThrust', lp.Character.HumanoidRootPart)
+		Thrust.Force = Vector3.new(9999,9999,9999)
+		Thrust.Name = "YeetForce"
+		repeat
+			lp.Character.HumanoidRootPart.CFrame = Target.Character.HumanoidRootPart.CFrame
+			Thrust.Location = Target.Character.HumanoidRootPart.Position
+			game:FindService("RunService").Heartbeat:wait()
+		until not Target.Character:FindFirstChild("Head")
+	else
+		notif("Invalid player")
+	end
+end)
+ 
+--//fsddfsdf
+notif("Loaded successfully! Created by ScripterGod#1066", 5)
+end)     
